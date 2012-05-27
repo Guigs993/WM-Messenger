@@ -60,5 +60,6 @@ public class Connexion extends JDialog implements ActionListener
 	{
 		messenger.setPseudo(pseudo.getText());
 		setVisible(false);
+		messenger.getCast().hello();
 	}
 }

@@ -24,7 +24,7 @@ public class ListeContact extends JPanel{
 
 	public ListeContact(){
 
-
+		super();
 		// Onglet Liste Contatcs
 
 		list_contact = new ArrayList<String>();
@@ -60,6 +60,7 @@ public class ListeContact extends JPanel{
 			}
 		});
 
+		add(list_contact_window);
 	}
 
 
