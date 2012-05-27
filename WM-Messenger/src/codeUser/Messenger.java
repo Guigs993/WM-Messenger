@@ -55,12 +55,17 @@ public class Messenger extends JFrame
 
 	}
 	
-	public ListeContact getListeContact() 
+	public void setPseudo (String ps)
+	{
+		pseudo = ps;
+	}
+	
+	public ListeContact getListeContact () 
 	{
 		return onglet_liste_contact;
 	}
 	
-	public Broadcast getBroadcast() 
+	public Broadcast getBroadcast () 
 	{
 		return onglet_broadcast;
 	}
@@ -78,7 +83,7 @@ public class Messenger extends JFrame
 					mes.setVisible(true);
 
 					// Popup de connexion
-					//Connexion popup = new Connexion(null, "Connexion", true);
+					Connexion popup = new Connexion(mes, "Connexion", true);
 				}
 				catch (Exception e)
 				{
