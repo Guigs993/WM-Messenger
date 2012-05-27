@@ -9,6 +9,10 @@ import javax.swing.JTabbedPane;
 
 public class Messenger extends JFrame
 {
+	private Cast cast;
+	private ListeContact onglet_liste_contact;
+	private Broadcast onglet_broadcast;
+	
 	private JTabbedPane onglets;
 	private String pseudo;
 	
@@ -27,6 +31,9 @@ public class Messenger extends JFrame
 		// Pack permet d'ajuster la taille de la JFrame en fonction du PreferredSize de son ContentPane
 		pack();
 		
+		// Création cast
+		cast = new Cast(this);
+		
 		// Positionne la fenêtre au milieu de l'écran
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = getSize().width;
@@ -35,7 +42,25 @@ public class Messenger extends JFrame
 		int y = (dimension.height - height) / 2;
 		setLocation(x, y);
 		
+		// Création onglet liste de contact
+		onglet_liste_contact = new ListeContact();
+		onglets.addTab("Liste de contact", null, onglet_liste_contact, null);
+		
+		// Création onglet broadcast
+		onglet_broadcast = new Broadcast(cast);
+		onglets.addTab("Broadcast", null, onglet_broadcast, null);
 	}
+	
+	public ListeContact getListeContact() 
+	{
+		return onglet_liste_contact;
+	}
+	
+	public Broadcast getBroadcast() 
+	{
+		return onglet_broadcast;
+	}
+	
 	
 	public static void main (String[] args)
 	{

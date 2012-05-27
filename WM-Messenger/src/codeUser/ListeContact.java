@@ -60,15 +60,6 @@ public class ListeContact extends JPanel{
 			}
 		});
 
-
-		JPanel panel_listecontact = new JPanel();
-		panel_listecontact.setLayout(null);
-		tabbedPane.addTab("Liste Contacts", null, panel_listecontact, null);
-
-
-		panel_listecontact.add(list_contact_window);
-
-
 	}
 
 

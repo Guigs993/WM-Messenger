@@ -17,24 +17,28 @@ import net.Address;
  * @author t.perennou
  */
 public class Cast implements NetListener {
-
-
-
 	private Conversation conversation;
 	private Broadcast broadcast;
 	private ListeContact listecontact;
-	private Chat chat;
 	private static NetInterface netif;
 
 
 
-	public Cast(Chat c) throws IOException 
+	public Cast(Messenger mes)
 	{
-
-		chat = c;
-		NetInterface.setVerbose(false);
-		netif = new NetInterface();
-		netif.addNetListener(this);
+		try 
+		{
+			listecontact = mes.getListeContact();
+			broadcast = mes.getBroadcast();
+			
+			NetInterface.setVerbose(false);
+			netif = new NetInterface();
+			netif.addNetListener(this);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
@@ -79,11 +83,11 @@ public class Cast implements NetListener {
 
 	
 	
-	public void broadcast() {
+	public void broadcast(String message) {
 		
 		//envoie du broadcast
 		try {
-			netif.sendBroadcast(broadcast.getbcast_chat_field());
+			netif.sendBroadcast(message);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -175,7 +179,7 @@ public class Cast implements NetListener {
 
 		else
 		{
-			String content_1=broadcast.getbcast_window();
+			String content_1 = broadcast.getbcast_window();
 			broadcast.setbcast_window(content_1 + "\n" +senderAddress.toString()  + " : " +content);
 		}
 	}

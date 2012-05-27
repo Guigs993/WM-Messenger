@@ -38,9 +38,7 @@ public class Broadcast extends JPanel{
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-
-				cast.broadcast();
-
+				cast.broadcast(getbcast_chat_field());
 			}
 		});
 

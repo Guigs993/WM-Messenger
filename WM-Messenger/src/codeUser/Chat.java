@@ -47,12 +47,7 @@ public class Chat extends JFrame {
 	 */
 	public Chat() {
 
-		try {
-			cast = new Cast(this);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		cast = new Cast();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 558, 401);
