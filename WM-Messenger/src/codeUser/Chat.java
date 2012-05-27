@@ -21,26 +21,6 @@ public class Chat extends JFrame {
 	private int log=0;
 
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Chat frame = new Chat();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-
-
-
-
 
 	/**
 	 * Create the frame.

@@ -49,6 +49,8 @@ public class Messenger extends JFrame
 		// Création onglet broadcast
 		onglet_broadcast = new Broadcast(cast);
 		onglets.addTab("Broadcast", null, onglet_broadcast, null);
+		
+		cast.lien_onglets();
 	}
 	
 	public ListeContact getListeContact() 
