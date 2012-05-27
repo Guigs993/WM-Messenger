@@ -22,12 +22,14 @@ public class Connexion extends JDialog implements ActionListener
 	{
 		super(parent, title, modal);
 		
+		// On lie le programme principal pour récuperer le pseudo
 		messenger = (Messenger) parent;
 
 		setPreferredSize(new Dimension(200, 110));
 		pack();
 		setLocationRelativeTo(null);
 		setResizable(false);
+		// Il ne se passe rien quand on essaie de fermer le JDialog
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		initComponent();

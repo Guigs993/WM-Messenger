@@ -70,6 +70,10 @@ public class Messenger extends JFrame
 		return onglet_broadcast;
 	}
 	
+	public Cast getCast ()
+	{
+		return cast;
+	}
 	
 	public static void main (String[] args)
 	{
