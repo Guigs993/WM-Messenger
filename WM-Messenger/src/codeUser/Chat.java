@@ -92,7 +92,9 @@ public class Chat extends JFrame {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(0, 0, 532, 353);
 		panel.add(tabbedPane);
-
+		
+		setContentPane(tabbedPane);
+		
 		panel_1 = new JPanel();
 		tabbedPane.addTab("Connexion", null, panel_1, null);
 		panel_1.setLayout(null);
@@ -113,7 +115,7 @@ public class Chat extends JFrame {
 
 					list_contact = new ArrayList<String>();
 					
-					DefaultListModel<String> list_contact_model = new DefaultListModel<String>();
+					DefaultListModel list_contact_model = new DefaultListModel();
 					
 					int taille = list_contact.size();
 					
@@ -343,7 +345,7 @@ public class Chat extends JFrame {
 		}
 		//*/
 		
-		DefaultListModel<String> list_contact_model = new DefaultListModel<String>();
+		DefaultListModel list_contact_model = new DefaultListModel();
 		
 		int taille = list_contact.size();
 		
