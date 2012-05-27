@@ -11,24 +11,20 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class Conversation extends JPanel{
-	private String address;
-	private JTabbedPane tabbedPane;
+	private String destinataire;
 	private JTextField ucast_chat_field;
-	private Chat chat;
 	private JTextField ucast_address_window;
 	private JTextField user_address_window;
 	private JTextArea ucast_window;
 	private Cast cast;
 	
-	
-	
-	public Conversation(Cast c){
+	public Conversation(Cast c, String adr){
 		
 		cast = c;
 		
+		setLayout(null);	
 		
-
-		setLayout(null);		
+		destinataire = adr;
 
 		ucast_chat_field=new JTextField();
 		ucast_chat_field.setBounds(10, 240, 375, 74);
@@ -42,9 +38,8 @@ public class Conversation extends JPanel{
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				cast.sendmessage();
+				cast.sendmessage(destinataire);
 				ucast_chat_field.setText("");
-
 			}
 		});
 
@@ -54,7 +49,7 @@ public class Conversation extends JPanel{
 
 
 
-		ucast_address_window = new JTextField();
+		ucast_address_window = new JTextField(destinataire);
 		ucast_address_window.setBounds(395, 13, 122, 40);
 		add(ucast_address_window);
 		ucast_address_window.setColumns(10);
@@ -64,7 +59,6 @@ public class Conversation extends JPanel{
 		user_address_window.setEditable(false);
 		add(user_address_window);
 		user_address_window.setColumns(10);
-		Cast onglet;
 		user_address_window.setText(cast.getAddress());
 
 		ucast_window = new JTextArea();
@@ -101,13 +95,16 @@ public class Conversation extends JPanel{
 		
 	}
 	
+	public String getDestinataire ()
+	{
+		return destinataire;
+	}
 	
 	public String getucast_chat_field() {
 		return ucast_chat_field.getText();
 	}
 	public String getucast_address_window() {
 		return ucast_address_window.getText().trim();
-
 	}
 
 	public void setucast_window(String texte) {

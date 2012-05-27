@@ -13,20 +13,22 @@ import javax.swing.JTabbedPane;
 
 
 
-public class ListeContact extends JPanel{
-
+public class ListeContact extends JPanel
+{
+	private Messenger messenger;
+	private Cast cast;
+	
 	private JList list_contact_window;
 	private ArrayList<String> list_contact;
-	private JTabbedPane tabbedPane;
-	private Cast cast;
 
-
-
-	public ListeContact(){
-
+	public ListeContact (Cast c, Messenger mes)
+	{
 		super();
-		// Onglet Liste Contatcs
-
+		
+		cast = c;
+		messenger = mes;
+		
+		// Onglet Liste Contacts
 		list_contact = new ArrayList<String>();
 
 		DefaultListModel list_contact_model = new DefaultListModel();
@@ -42,15 +44,12 @@ public class ListeContact extends JPanel{
 		list_contact_window.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent me) {
 				if (me.getClickCount() == 2) {
-
-
-
-
+					
 					// Onglet Conversation créé en double cliquant
 					int index = list_contact_window.locationToIndex(me.getPoint());
-					Conversation conversation = new Conversation(cast);
-					conversation.setLayout(null);
-					tabbedPane.addTab(list_contact.get(index), null, conversation, null);
+					String destinataire = list_contact.get(index);
+					Conversation conversation = new Conversation(cast, destinataire);
+					messenger.ajouterConversation(conversation);
 
 
 

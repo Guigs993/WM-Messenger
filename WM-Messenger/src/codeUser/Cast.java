@@ -21,7 +21,8 @@ public class Cast implements NetListener {
 	
 	private ListeContact liste_contact;
 	private Broadcast broadcast;
-	private Conversation conversation;
+	private Conversation[] conversations;
+	
 	private static NetInterface netif;
 
 
@@ -46,43 +47,24 @@ public class Cast implements NetListener {
 	public void lien_onglets() {
 		liste_contact = messenger.getListeContact();
 		broadcast = messenger.getBroadcast();
+		conversations = messenger.getConversations();
 	}
 
-	public void sendmessage() {
+	public void sendmessage(String destinataire) {
 
-		// envoi du message
-		if(conversation.getucast_address_window().length() > 0)
-		{
-			Address addr1 = new Address(conversation.getucast_address_window());
-			try {
-				netif.sendUnicast(conversation.getucast_chat_field(), addr1);
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// copie ра l'envoyeur 
-			Address addr2 = netif.getAddress();
-			try {
-				netif.sendUnicast(conversation.getucast_chat_field(), addr2);
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		// envoi du message	
+		Conversation conv = messenger.trouverConversation(destinataire);
+		Address addr1 = new Address(conv.getucast_address_window());
+		try {
+			netif.sendUnicast(conv.getucast_chat_field(), addr1);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-		
-		else
-		{
-			Address addr2 = netif.getAddress();
-			try {
-				netif.sendUnicast("Veuillez entrer une adresse", addr2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
+		// copie ра l'envoyeur
+		Address addr2 = netif.getAddress();
+		Conversation conv2 = messenger.trouverConversation(addr1.toString());
+		conv2.setucast_window(conv.getucast_window()+"\n"+addr2.toString()  + " : " + conv.getucast_chat_field());
 	}
 
 	
@@ -107,7 +89,7 @@ public class Cast implements NetListener {
 
 	
 
-	public void unicastReceived(Address senderAddress, Serializable content) 
+	public void unicastReceived(Address senderAddress, Serializable content)
 	{
 		/*
 		if(content instanceof String)
@@ -121,8 +103,9 @@ public class Cast implements NetListener {
 		}
 		else
 		{
-			String content_1=conversation.getucast_window();
-			conversation.setucast_window(content_1+"\n"+senderAddress.toString()  + " : " + content);
+			Conversation conv = messenger.trouverConversation(senderAddress.toString());
+			String content_1=conv.getucast_window();
+			conv.setucast_window(content_1+"\n"+senderAddress.toString()  + " : " + content);
 		}
 		/*
 		}
