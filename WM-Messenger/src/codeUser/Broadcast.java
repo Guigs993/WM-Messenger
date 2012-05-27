@@ -65,6 +65,11 @@ public class Broadcast extends JPanel{
 	public String getbcast_chat_field() {
 		return bcast_chat_field.getText();
 	}
+	
+	
+	public void setbcast_chat_field(String texte) {	
+		bcast_chat_field.setText(texte);
+	}
 
 
 	public void setbcast_window(String texte) {	

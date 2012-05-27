@@ -34,14 +34,6 @@ public class Messenger extends JFrame
 		// Création cast
 		cast = new Cast(this);
 		
-		// Création onglet liste de contact
-		onglet_liste_contact = new ListeContact();
-		onglets.addTab("Liste de contact", null, onglet_liste_contact, null);
-		
-		// Création onglet broadcast
-		onglet_broadcast = new Broadcast(cast);
-		onglets.addTab("Broadcast", null, onglet_broadcast, null);
-		
 		// Positionne la fenêtre au milieu de l'écran
 		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
 		int width = getSize().width;
@@ -50,6 +42,16 @@ public class Messenger extends JFrame
 		int y = (dimension.height - height) / 2;
 		setLocation(x, y);
 		
+
+		// Création onglet liste de contact
+		onglet_liste_contact = new ListeContact();
+		onglets.addTab("Liste de contact", null, onglet_liste_contact, null);
+		
+		// Création onglet broadcast
+		onglet_broadcast = new Broadcast(cast);
+		onglets.addTab("Broadcast", null, onglet_broadcast, null);
+		
+		cast.lien_onglets();
 
 	}
 	

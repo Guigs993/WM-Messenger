@@ -17,9 +17,11 @@ import net.Address;
  * @author t.perennou
  */
 public class Cast implements NetListener {
-	private Conversation conversation;
+	private Messenger messenger;
+	
+	private ListeContact liste_contact;
 	private Broadcast broadcast;
-	private ListeContact listecontact;
+	private Conversation conversation;
 	private static NetInterface netif;
 
 
@@ -28,8 +30,7 @@ public class Cast implements NetListener {
 	{
 		try 
 		{
-			listecontact = mes.getListeContact();
-			broadcast = mes.getBroadcast();
+			messenger = mes;
 			
 			NetInterface.setVerbose(false);
 			netif = new NetInterface();
@@ -42,7 +43,10 @@ public class Cast implements NetListener {
 
 	}
 
-
+	public void lien_onglets() {
+		liste_contact = messenger.getListeContact();
+		broadcast = messenger.getBroadcast();
+	}
 
 	public void sendmessage() {
 
@@ -88,6 +92,7 @@ public class Cast implements NetListener {
 		//envoie du broadcast
 		try {
 			netif.sendBroadcast(message);
+			broadcast.setbcast_chat_field(null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -112,7 +117,7 @@ public class Cast implements NetListener {
 		//Si on recoit "roger.connect" on actualise la liste des contacts
 		if(((String) content).matches("roger.connect"))
 		{
-			listecontact.setlist_contact(senderAddress.toString());	
+			liste_contact.setlist_contact(senderAddress.toString());	
 		}
 		else
 		{
@@ -167,7 +172,7 @@ public class Cast implements NetListener {
 
 				if (!senderAddress.toString().equals(getAddress())){
 
-					listecontact.setlist_contact(senderAddress.toString());
+					liste_contact.setlist_contact(senderAddress.toString());
 				} 
 
 			} catch (IOException e) {
