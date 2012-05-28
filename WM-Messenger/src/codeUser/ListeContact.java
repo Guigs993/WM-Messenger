@@ -9,7 +9,7 @@ import java.util.ListIterator;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+
 
 
 
@@ -101,6 +101,11 @@ public class ListeContact extends JPanel
 		list_contact_window.removeAll();
 		list_contact_window.setModel(list_contact_model);
 
+	}
+	
+	public ArrayList<String> getListContact ()
+	{
+		return list_contact;
 	}
 }
 

@@ -3,6 +3,7 @@ package codeUser;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ListIterator;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -55,12 +56,33 @@ public class Connexion extends JDialog implements ActionListener
 		add(bouton_connexion);
 		
 	}
-
-	public void actionPerformed(ActionEvent e)
+	
+	public boolean pseudoDisponible ()
 	{
-		messenger.setPseudo(txtpseudo.getText());
-		setVisible(false);
-		messenger.getCast().hello();
+		//ListIterator<String> it = messenger.getListeContact().
+		for (String str : messenger.getListeContact().getListContact())
+		{
+			if (txtpseudo.getText().equals(str))
+				return false;
+		}
+		
+		return true;
+	}
+
+	public void actionPerformed (ActionEvent e)
+	{
+		if (txtpseudo.getText().length() > 2 && pseudoDisponible())
+		{
+			messenger.setPseudo(txtpseudo.getText());
+			setVisible(false);
+			messenger.getCast().hello();
+		}
+		else if (txtpseudo.getText().length() < 3)
+			txtpseudo.setText("Pseudo trop court");
+		
+		else
+			txtpseudo.setText("Pseudo indisponible");
+		
 	}
 	
 
