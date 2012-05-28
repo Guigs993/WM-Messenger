@@ -77,7 +77,6 @@ public class Cast implements NetListener {
 			netif.sendBroadcast(message);
 			broadcast.setbcast_chat_field(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -95,9 +94,6 @@ public class Cast implements NetListener {
 			if(((String) content).matches("roger.connect"))
 			{
 				liste_contact.setlist_contact(senderAddress.toString());
-				/*messenger.pseudoLinkAddress(senderAddress);
-				liste_contact.setlist_contact(messenger.getpseudo());
-				*/
 			}
 			else if (((String) content).length() > 9 && ((String) content).substring(0, 9).equals("file.name"))
 			{
@@ -152,11 +148,9 @@ public class Cast implements NetListener {
 				if (!senderAddress.toString().equals(getAddress())){
 
 					liste_contact.setlist_contact(senderAddress.toString());
-					//liste_contact.setlist_contact(messenger.getpseudo());
 				} 
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}	
 
@@ -185,7 +179,6 @@ public class Cast implements NetListener {
 			System.out.println("hello.connect." + messenger.getpseudo());
 			netif.sendBroadcast("hello.connect." + messenger.getpseudo());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -197,7 +190,6 @@ public class Cast implements NetListener {
 		try {
 			netif.sendBroadcast("goodbye.connect");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

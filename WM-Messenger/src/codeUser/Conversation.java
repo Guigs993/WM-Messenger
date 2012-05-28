@@ -94,11 +94,6 @@ public class Conversation extends JPanel{
 					
 					cast.sendFile_Unicast(fichier, destinataire);
 				}
-				/*
-				Cast onglet;
-				cast.sendFile_Unicast();
-				ucast_chat_field.setText("");
-				*/
 
 			}
 		});
