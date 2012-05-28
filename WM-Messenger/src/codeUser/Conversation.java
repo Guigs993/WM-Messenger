@@ -2,8 +2,10 @@ package codeUser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -18,9 +20,12 @@ public class Conversation extends JPanel{
 	private JTextArea ucast_window;
 	private Cast cast;
 	
+	private JFileChooser jfc;
+	
 	public Conversation(Cast c, String adr){
 		
 		cast = c;
+		
 		
 		setLayout(null);	
 		
@@ -77,9 +82,23 @@ public class Conversation extends JPanel{
 		{
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				jfc = new JFileChooser();
+				int returnVal = jfc.showOpenDialog(null);
+				
+				if (returnVal == JFileChooser.APPROVE_OPTION)
+				{
+					File fichier = jfc.getSelectedFile();
+					ucast_chat_field.setText("file.name."+fichier.getName());
+					cast.sendmessage(destinataire);
+					ucast_chat_field.setText("");
+					
+					cast.sendFile_Unicast(fichier, destinataire);
+				}
+				/*
 				Cast onglet;
 				cast.sendFile_Unicast();
 				ucast_chat_field.setText("");
+				*/
 
 			}
 		});

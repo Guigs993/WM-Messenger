@@ -5,6 +5,7 @@ package codeUser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -25,7 +26,7 @@ public class Cast implements NetListener {
 	
 	private static NetInterface netif;
 
-
+	private String nom_fichier;
 
 	public Cast(Messenger mes)
 	{
@@ -81,67 +82,58 @@ public class Cast implements NetListener {
 		}
 	}
 
-
-
 	public static String getAddress() {
 		return netif.getAddress().toString();
 	}
 
-	
-
 	public void unicastReceived(Address senderAddress, Serializable content)
 	{
-		/*
-		if(content instanceof String)
-		{
-		 */
 		
-		//Si on recoit "roger.connect" on actualise la liste des contacts
-		if(((String) content).matches("roger.connect"))
+		if (content instanceof String)
 		{
-			liste_contact.setlist_contact(senderAddress.toString());
-			/*messenger.pseudoLinkAddress(senderAddress);
-			liste_contact.setlist_contact(messenger.getpseudo());
-			*/
+			//Si on recoit "roger.connect" on actualise la liste des contacts
+			if(((String) content).matches("roger.connect"))
+			{
+				liste_contact.setlist_contact(senderAddress.toString());
+				/*messenger.pseudoLinkAddress(senderAddress);
+				liste_contact.setlist_contact(messenger.getpseudo());
+				*/
+			}
+			else if (((String) content).length() > 9 && ((String) content).substring(0, 9).equals("file.name"))
+			{
+				nom_fichier = ((String) content).substring(10, ((String) content).length());
+			}
+			else
+			{
+				Conversation conv = messenger.trouverConversation(senderAddress.toString());
+				String content_1=conv.getucast_window();
+				conv.setucast_window(content_1+"\n"+senderAddress.toString()  + " : " + content);
+			}
 		}
 		else
 		{
-			Conversation conv = messenger.trouverConversation(senderAddress.toString());
-			String content_1=conv.getucast_window();
-			conv.setucast_window(content_1+"\n"+senderAddress.toString()  + " : " + content);
-		}
-		/*
-		}
-		else
-		{
-			String strFilePath = "D://test.txt";
+			byte[] fichier_byte = (byte[]) content;
+			
+			String fichier_path = "D://" + nom_fichier;
 
-		      FileOutputStream fos=null;
 			try {
-				fos = new FileOutputStream(strFilePath);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				FileOutputStream fils = new FileOutputStream(fichier_path);
+				fils.write(fichier_byte);
+				fils.close();
+				Conversation conv = messenger.trouverConversation(senderAddress.toString());
+				String content_1=conv.getucast_window();
+				conv.setucast_window(content_1+"\n"+senderAddress.toString()  + " : Fichier " + nom_fichier + " reçu");
 			}
-		      String strContent = "Write File using Java FileOutputStream example !";
-
-
-		       try {
-				fos.write(strContent.getBytes());
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			catch (FileNotFoundException fnfe)
+			{
+				System.out.println("Créer le fichier avant noob");
+				fnfe.printStackTrace();
 			}
-
-
-		       try {
-				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
+			catch (IOException ioe)
+			{
+				ioe.printStackTrace();
+			}
 		}
-		 */
 	}
 
 
@@ -210,61 +202,31 @@ public class Cast implements NetListener {
 		}
 	}
 
-
 	//Envoi de fichiers
-	public void sendFile_Unicast()
+	public void sendFile_Unicast(File fichier, String destinataire)
 	{
-		String path=conversation.getucast_chat_field();
-
-		File file = new File(path);
-		FileInputStream file_sent = null;
-		try {
-			file_sent = new FileInputStream(file);
-		} catch (FileNotFoundException e2) {
-			Address addr2 = netif.getAddress();
-			try {
-				netif.sendUnicast("Veuillez entrer un chemin correct", addr2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		byte fileContent[] = new byte[(int) file.length()];
-
-
-		if(conversation.getucast_address_window().length() > 0)
+		try 
 		{
-			Address addr1 = new Address(conversation.getucast_address_window());
-			try {
+			FileInputStream fils;
+			fils = new FileInputStream(fichier);
+			byte[] fichier_byte = new byte[(int) fichier.length()];
+			fils.read(fichier_byte);
+			
+			Conversation conv = messenger.trouverConversation(destinataire);
+			Address addr1 = new Address(destinataire);
+			netif.sendUnicast(fichier_byte, addr1);
 
-				netif.sendUnicast(fileContent, addr1);
-
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			// copie Ã  l'envoyeur 
 			Address addr2 = netif.getAddress();
-			try {
-				netif.sendUnicast("Fichier Envoyé", addr2);
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		else
+			Conversation conv2 = messenger.trouverConversation(addr1.toString());
+			conv2.setucast_window(conv.getucast_window()+"\n"+addr2.toString()  + " : Fichier envoyé");
+		} 
+		catch (FileNotFoundException fnfe)
 		{
-			Address addr2 = netif.getAddress();
-			try {
-				netif.sendUnicast("Veuillez entrer une adresse", addr2);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			fnfe.printStackTrace();
+		}
+		catch (IOException ioe)
+		{
+			ioe.printStackTrace();
 		}
 	}
 
