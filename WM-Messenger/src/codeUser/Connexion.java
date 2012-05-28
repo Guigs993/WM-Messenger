@@ -15,7 +15,7 @@ public class Connexion extends JDialog implements ActionListener
 	private Messenger messenger;
 	
 	private JLabel label_pseudo;
-	private JTextField pseudo;
+	private JTextField txtpseudo;
 	private JButton bouton_connexion;
 	
 	public Connexion (JFrame parent, String title, boolean modal) 
@@ -45,9 +45,9 @@ public class Connexion extends JDialog implements ActionListener
 		label_pseudo.setBounds(2, 0, 190, 25);
 		add(label_pseudo);
 		
-		pseudo = new JTextField();
-		pseudo.setBounds(27, 25, 140, 20);
-		add(pseudo);
+		txtpseudo = new JTextField();
+		txtpseudo.setBounds(27, 25, 140, 20);
+		add(txtpseudo);
 		
 		bouton_connexion = new JButton("Connexion");
 		bouton_connexion.setBounds(27, 50, 140, 25);
@@ -58,8 +58,10 @@ public class Connexion extends JDialog implements ActionListener
 
 	public void actionPerformed(ActionEvent e)
 	{
-		messenger.setPseudo(pseudo.getText());
+		messenger.setPseudo(txtpseudo.getText());
 		setVisible(false);
 		messenger.getCast().hello();
 	}
+	
+
 }

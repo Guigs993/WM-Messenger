@@ -99,7 +99,10 @@ public class Cast implements NetListener {
 		//Si on recoit "roger.connect" on actualise la liste des contacts
 		if(((String) content).matches("roger.connect"))
 		{
-			liste_contact.setlist_contact(senderAddress.toString());	
+			liste_contact.setlist_contact(senderAddress.toString());
+			/*messenger.pseudoLinkAddress(senderAddress);
+			liste_contact.setlist_contact(messenger.getpseudo());
+			*/
 		}
 		else
 		{
@@ -146,16 +149,18 @@ public class Cast implements NetListener {
 	public void broadcastReceived(Address senderAddress,
 			Serializable content) 
 	{
-		//On actualise la liste des contacts si on recoit "hello.connect" et on renvoit "roger.connect" pour que l'autre utilisateur actualise
-		//sa liste de contacts
-		if(((String) content).matches("hello.connect"))
+		// On actualise la liste de contacts si on recoit "hello.connect" et on renvoit "roger.connect" pour que l'autre utilisateur
+		// actualise sa liste de contacts
+		if(((String) content).length() > 13 && ((String) content).substring(0, 13).equals("hello.connect"))
 		{
+			System.out.println("Roger Bébé");
 			try {
 				netif.sendUnicast("roger.connect",senderAddress);
 
 				if (!senderAddress.toString().equals(getAddress())){
 
 					liste_contact.setlist_contact(senderAddress.toString());
+					//liste_contact.setlist_contact(messenger.getpseudo());
 				} 
 
 			} catch (IOException e) {
@@ -164,8 +169,15 @@ public class Cast implements NetListener {
 			}	
 
 		}
-
+		
+		else if (((String) content).matches("goodbye.connect"))
+		{
+			String expediteur = senderAddress.toString();
+			liste_contact.remove_list_contact(expediteur);
+		}
+		
 		else
+		
 		{
 			String content_1 = broadcast.getbcast_window();
 			broadcast.setbcast_window(content_1 + "\n" +senderAddress.toString()  + " : " +content);
@@ -178,13 +190,25 @@ public class Cast implements NetListener {
 	public void hello()
 	{
 		try {
-			netif.sendBroadcast("hello.connect");
+			System.out.println("hello.connect." + messenger.getpseudo());
+			netif.sendBroadcast("hello.connect." + messenger.getpseudo());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
+	
+	//Méthode appelée à la déconnexion
+	public void goodbye()
+	{
+		try {
+			netif.sendBroadcast("goodbye.connect");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 
 	//Envoi de fichiers

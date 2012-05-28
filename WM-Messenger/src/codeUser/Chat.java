@@ -89,9 +89,7 @@ public class Chat extends JFrame {
 		txtPseudo.setColumns(10);
 	}
 
-	public String gettxtpseudo() {
-		return txtPseudo.getText();
-	}
+
 
 
 }

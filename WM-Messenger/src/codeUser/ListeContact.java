@@ -4,6 +4,7 @@ package codeUser;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.ListIterator;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -20,6 +21,7 @@ public class ListeContact extends JPanel
 	
 	private JList list_contact_window;
 	private ArrayList<String> list_contact;
+	private ArrayList<String> list_contact_pseudo;
 
 	public ListeContact (Cast c, Messenger mes)
 	{
@@ -50,19 +52,13 @@ public class ListeContact extends JPanel
 					String destinataire = list_contact.get(index);
 					Conversation conversation = new Conversation(cast, destinataire);
 					messenger.ajouterConversation(conversation);
-
-
-
-
-
+					
 				}
 			}
 		});
 
 		add(list_contact_window);
 	}
-
-
 
 
 	public void setlist_contact(String texte) {
@@ -73,6 +69,26 @@ public class ListeContact extends JPanel
 		System.out.println(str);
 	}
 	//*/
+		
+		refresh_list_contact();
+	}
+	
+	public void remove_list_contact (String texte) 
+	{
+		ListIterator<String> it = list_contact.listIterator();
+		while (it.hasNext())
+		{
+			String str = it.next();
+			
+			if (str.equals(texte))
+				it.remove();
+		}
+		
+		refresh_list_contact();
+	}
+	
+	public void refresh_list_contact ()
+	{
 
 		DefaultListModel list_contact_model = new DefaultListModel();
 

@@ -3,9 +3,13 @@ package codeUser;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+
+import net.Address;
 
 public class Messenger extends JFrame
 {
@@ -23,6 +27,33 @@ public class Messenger extends JFrame
 
 		setTitle("WM-Messenger v0.1");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		WindowListener wl = new WindowListener() {
+			
+			public void windowOpened(WindowEvent e) {
+			}
+			
+			public void windowIconified(WindowEvent e) {
+			}
+			
+			public void windowDeiconified(WindowEvent e) {
+			}
+			
+			public void windowDeactivated(WindowEvent e) {
+			}
+			
+			public void windowClosing(WindowEvent e) {
+				cast.goodbye();
+			}
+			
+			public void windowClosed(WindowEvent e) {
+			}
+			
+			public void windowActivated(WindowEvent e) {
+			}
+		};
+		
+		addWindowListener(wl);
 
 		// Création onglets
 		onglets = new JTabbedPane(JTabbedPane.TOP);
@@ -62,6 +93,13 @@ public class Messenger extends JFrame
 	{
 		pseudo = ps;
 	}
+	
+	
+	public String getpseudo() 
+	{
+		return pseudo.toString();
+	}
+	
 	
 	public void ajouterConversation (Conversation conversation)
 	{
@@ -135,4 +173,5 @@ public class Messenger extends JFrame
 			}
 		});
 	}
+
 }
